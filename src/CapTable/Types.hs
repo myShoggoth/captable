@@ -1,92 +1,86 @@
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module CapTable.Types
     ( module CapTable.Types
     ) where
 
-import           Control.Lens
 import           Data.Time
+import           GHC.Generics
 
 data Company = Company {
-  _rounds   :: [Round],
-  _founders :: [Investment]
-} deriving Show
+  rounds   :: [Round],
+  founders :: [Investment]
+} deriving stock (Show, Generic)
 
-data Valuation = PreMoneyValuation Double | PricePerShare Double | PostEquityStake Double deriving Show
+data Valuation = PreMoneyValuation Double | PricePerShare Double | PostEquityStake Double
+  deriving Show
 
 data Dividend = Dividend {
-  _dividendYield     :: Double,
-  _dividendCompounds :: Bool
-} deriving Show
+  dividendYield     :: Double,
+  dividendCompounds :: Bool
+} deriving stock (Show, Generic)
 
 data Liquidation = Liquidation {
-  _liquidationPref :: Double,
-  _liquidationCap  :: Double
-} deriving Show
+  liquidationPref :: Double,
+  liquidationCap  :: Double
+} deriving stock (Show, Generic)
 
 data Preferred = Preferred {
-  _dividend    :: Dividend,
-  _liquidation :: Liquidation
-} deriving Show
+  dividend    :: Dividend,
+  liquidation :: Liquidation
+} deriving stock (Show, Generic)
 
-data StockType = Common | ConvertiblePreferred Preferred | ParticipatingPreferred Preferred deriving Show
+data StockType = Common | ConvertiblePreferred Preferred | ParticipatingPreferred Preferred
+  deriving Show
 
 data OptionPoolCreation = PreMoney | PostMoney deriving Show
 
-data OptionPoolSize = OptionPoolPercent Double | OptionPoolShares Integer deriving Show
+data OptionPoolSize = OptionPoolPercent Double | OptionPoolShares Integer
+  deriving Show
 
 data OptionPool = OptionPool {
-  _optionPoolSize     :: OptionPoolSize,
-  _optionPoolCreation :: OptionPoolCreation
-} deriving Show
+  optionPoolSize     :: OptionPoolSize,
+  optionPoolCreation :: OptionPoolCreation
+} deriving stock (Show, Generic)
 
-data AntiDilution = None | FullRatchet | WeightedAverage | NoPriceBased deriving Show
+data AntiDilution = None | FullRatchet | WeightedAverage | NoPriceBased
+  deriving Show
 
 data Round = Round {
-  _roundName    :: String,
-  _roundDate    :: Day,
-  _valuation    :: Valuation,
-  _investments  :: [Investment],
-  _stockType    :: StockType,
-  _optionPool   :: OptionPool,
-  _antiDilution :: AntiDilution
-} deriving Show
+  roundName    :: String,
+  roundDate    :: Day,
+  valuation    :: Valuation,
+  investments  :: [Investment],
+  stockType    :: StockType,
+  optionPool   :: OptionPool,
+  antiDilution :: AntiDilution
+} deriving stock (Show, Generic)
 
 instance Ord Round where
-  compare r1 r2 = _roundDate r1 `compare` _roundDate r2
+  compare r1 r2 = roundDate r1 `compare` roundDate r2
 
 instance Eq Round where
-  r1 == r2 = _roundDate r1 == _roundDate r2
+  r1 == r2 = roundDate r1 == roundDate r2
 
-data InvestmentBasis = Currency Double | Shares Integer deriving Show
+data InvestmentBasis = Currency Double | Shares Integer
+  deriving Show
 
 data Investment = Investment {
-  _investor        :: Investor,
-  _investmentBasis :: InvestmentBasis
-} deriving Show
+  investor        :: Investor,
+  investmentBasis :: InvestmentBasis
+} deriving stock (Show, Generic)
 
 data Investor = Investor {
-  _investorName :: String
+  investorName :: String
 } deriving Show
 
 data Exit = Exit {
-  _exitDate   :: Day,
-  _exitAmount :: Double
-} deriving Show
+  exitDate   :: Day,
+  exitAmount :: Double
+} deriving stock (Show, Generic)
 
 data Calculation = Calculation {
-  _company :: Company,
-  _exit    :: Maybe Exit
-} deriving Show
-
-makeLenses ''Company
-makeLenses ''Dividend
-makeLenses ''Liquidation
-makeLenses ''Preferred
-makeLenses ''OptionPool
-makeLenses ''AntiDilution
-makeLenses ''Round
-makeLenses ''Investment
-makeLenses ''Investor
-makeLenses ''Exit
-makeLenses ''Calculation
+  company :: Company,
+  exit    :: Maybe Exit
+} deriving stock (Show, Generic)

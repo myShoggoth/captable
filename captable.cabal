@@ -20,6 +20,7 @@ library
   build-depends:       base >= 4.7 && < 5
                      , time
                      , lens
+                     , generic-lens
                      , mtl
   default-language:    Haskell2010
 
