@@ -7,7 +7,7 @@ license:             BSD3
 license-file:        LICENSE
 author:              Andrew F. Boardman
 maintainer:          andrew@myshoggoth.com
-copyright:           2017 Andrew F. Boardman
+copyright:           2017-2020 Andrew F. Boardman
 category:            Finance
 build-type:          Simple
 extra-source-files:  README.md
