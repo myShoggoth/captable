@@ -5,8 +5,8 @@ module CapTable.Types
     ( module CapTable.Types
     ) where
 
-import           Data.Time
-import           GHC.Generics
+import Data.Time ( Day )
+import GHC.Generics ( Generic )
 
 data Company = Company {
   rounds   :: [Round],
@@ -18,7 +18,8 @@ data Valuation = PreMoneyValuation Double | PricePerShare Double | PostEquitySta
 
 data Dividend = Dividend {
   dividendYield     :: Double,
-  dividendCompounds :: Bool
+  dividendCompounds :: Bool,
+  dividend360       :: Bool
 } deriving stock (Show, Generic)
 
 data Liquidation = Liquidation {
@@ -44,7 +45,7 @@ data OptionPool = OptionPool {
   optionPoolCreation :: OptionPoolCreation
 } deriving stock (Show, Generic)
 
-data AntiDilution = None | FullRatchet | WeightedAverage | NoPriceBased
+data AntiDilution = None | FullRatchet | BroadWeightedAverage | NarrowWeightedAverage
   deriving Show
 
 data Round = Round {
@@ -54,7 +55,8 @@ data Round = Round {
   investments  :: [Investment],
   stockType    :: StockType,
   optionPool   :: OptionPool,
-  antiDilution :: AntiDilution
+  antiDilution :: AntiDilution,
+  pariPassu    :: Bool
 } deriving stock (Show, Generic)
 
 instance Ord Round where
